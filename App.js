@@ -13,7 +13,7 @@ import NewPost from './page/bbs/NewPost';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const HomeNavigator = () => {
+const HomeTabNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
@@ -23,7 +23,7 @@ const HomeNavigator = () => {
   );
 };
 
-const BbsNavigator = () => {
+const BbsTabNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="BbsScreen" component={BbsScreen} />
@@ -53,12 +53,12 @@ const App = () => {
         })}>
         <Tab.Screen
           name="Home"
-          component={HomeNavigator}
+          component={HomeTabNavigator}
           options={{headerShown: false}}
         />
         <Tab.Screen
           name="BBS"
-          component={BbsNavigator}
+          component={BbsTabNavigator}
           options={{headerShown: false}}
         />
         <Tab.Screen name="Me" component={MeScreen} />
