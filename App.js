@@ -5,6 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import HomeScreen from './page/home/HomeScreen';
 import MeScreen from './page/me/MeScreen';
+import MyAdoption from './page/me/MyAdoption';
 import PetDetail from './page/home/PetDetail';
 import BbsScreen from './page/bbs/BbsScreen';
 import NewPost from './page/bbs/NewPost';
@@ -28,6 +29,15 @@ const BbsTabNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen name="BbsScreen" component={BbsScreen} />
       <Stack.Screen name="NewPost" component={NewPost} />
+    </Stack.Navigator>
+  );
+};
+
+const MeTabNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="MeScreen" component={MeScreen} />
+      <Stack.Screen name="MyAdoption" component={MyAdoption} />
     </Stack.Navigator>
   );
 };
@@ -61,7 +71,11 @@ const App = () => {
           component={BbsTabNavigator}
           options={{headerShown: false}}
         />
-        <Tab.Screen name="Me" component={MeScreen} />
+        <Tab.Screen
+          name="Me"
+          component={MeTabNavigator}
+          options={{headerShown: false}}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
