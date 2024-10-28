@@ -39,6 +39,7 @@ const NewPost = ({navigation}) => {
           onChangeText={address => setAddress(address)}
         />
         <Button
+          color="warning"
           style={styles.button}
           icon={<AntDesignIcon name="save" size={24} color="#fff" />}
           onPress={onSave}
