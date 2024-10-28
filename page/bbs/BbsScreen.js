@@ -18,7 +18,7 @@ const BbsScreen = ({navigation}) => {
       name: '张三',
       createTime: '2024-05-01 12:30:00',
       content: '小猫小猫小猫小猫',
-      url: '../image/avator.png',
+      url: '../image/avator.jpg',
       like: 12,
       reviewDisplay: false,
       reviews: [
@@ -43,7 +43,7 @@ const BbsScreen = ({navigation}) => {
       name: '李四',
       createTime: '2023-05-01 12:30:00',
       content: '小猫小猫小猫小猫',
-      url: '../image/avator.png',
+      url: '../image/avator.jpg',
       like: 45,
       reviewDisplay: false,
       reviews: [],
@@ -54,7 +54,7 @@ const BbsScreen = ({navigation}) => {
       <View style={styles.card.row}>
         <Image
           style={styles.card.avatar}
-          source={require('../image/avator.png')}
+          source={require('../image/avator.jpg')}
         />
         <View>
           <Text style={styles.card.name}>{item.name}</Text>
@@ -64,10 +64,12 @@ const BbsScreen = ({navigation}) => {
       <View style={styles.card.row}>
         <Text>{item.content}</Text>
       </View>
-      <Image
-        style={styles.card.coverImg}
-        source={require('../image/avator.png')}
-      />
+      <View style={styles.card.row}>
+        <Image
+          style={styles.card.coverImg}
+          source={require('../image/avator.jpg')}
+        />
+      </View>
       <View style={styles.card.toolbar}>
         <TouchableOpacity
           style={styles.card.toolbar.item}
@@ -122,6 +124,9 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     padding: 10,
   },
+  flatList: {
+    width: '100%',
+  },
   mr5: {
     marginRight: 5,
   },
@@ -153,9 +158,8 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
     },
     coverImg: {
-      // width: '100%',
+      width: '100%',
       height: 200,
-      resizeMode: 'contain',
       marginTop: 10,
     },
     toolbar: {
