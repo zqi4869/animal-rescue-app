@@ -97,17 +97,23 @@ const BbsScreen = ({navigation}) => {
     // TODO: update like count
   };
 
+  useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          type="clear"
+          onPress={() => navigation.navigate('NewPost')}
+          icon={<AntDesignIcon name="pluscircle" size={24} color="#ffba41" />}
+          radius="50"
+        />
+      ),
+    });
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
-      <Button
-        buttonStyle={styles.newBtn}
-        radius="50"
-        color="primary"
-        onPress={() => navigation.navigate('NewPost')}
-        icon={<AntDesignIcon name="pluscircleo" size={20} color="#fff" />}>
-        &nbsp;New Post
-      </Button>
-
       <FlatList
         style={styles.flatList}
         data={dataList}
@@ -129,10 +135,6 @@ const styles = StyleSheet.create({
   },
   mr5: {
     marginRight: 5,
-  },
-  newBtn: {
-    width: 200,
-    margin: 20,
   },
   card: {
     width: '100%',
