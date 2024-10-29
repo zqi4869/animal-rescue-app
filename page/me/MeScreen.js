@@ -103,10 +103,16 @@ const MeScreen = ({navigation}) => {
         onChangeText={pwd => setPassword(pwd)}
       />
       <Button
-        icon={<AntDesignIcon name="save" size={24} color="#fff" />}
+        color="warning"
+        icon={<AntDesignIcon name="login" size={20} color="#fff" />}
         onPress={onLogin}
-        title="Login"
-      />
+      >  Login</Button>
+      <Button
+        buttonStyle={{marginTop: 10}}
+        type="outline"
+        icon={<AntDesignIcon name="user" size={20} color="#fff" />}
+        onPress={() => navigation.navigate('SignUp')}
+      >  Sign Up</Button>
     </View>
   )
 
