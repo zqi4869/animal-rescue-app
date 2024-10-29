@@ -4,9 +4,6 @@ import {Button, ListItem, Input} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 
 const PetDetail = ({navigation}) => {
-  const [address, setAddress] = useState('');
-  const [phone, setPhone] = useState('');
-  const [username, setUsername] = useState('');
 
   const tags = ['成都', '弟弟', '3个月'].map((t, index) => (
     <View style={styles.card.tag} key={'tag-' + index}>
@@ -16,10 +13,8 @@ const PetDetail = ({navigation}) => {
 
   const onSave = () => {
     if (address && phone && username) {
-      Alert.alert('Message', 'Save successfully');
+      Alert.alert('Message', 'Adopt successfully');
       navigation.goBack();
-    } else {
-      Alert.alert('Message', 'Please fill all fields');
     }
   };
 
@@ -54,33 +49,11 @@ const PetDetail = ({navigation}) => {
         />
       </View>
 
-      <View style={styles.form}>
-        <Text style={styles.quote}>Adoption request</Text>
-        <Input
-          label="Your Name"
-          placeholder="Type in name"
-          value={username}
-          onChangeText={name => setUsername(name)}
-        />
-        <Input
-          label="Your Phone"
-          placeholder="Type in phone"
-          value={phone}
-          onChangeText={phone => setPhone(phone)}
-        />
-        <Input
-          label="Your Address"
-          placeholder="Type in address"
-          value={address}
-          onChangeText={address => setAddress(address)}
-        />
-        <Button
-          style={styles.form.button}
-          icon={<AntDesignIcon name="save" size={24} color="#fff" />}
-          onPress={onSave}
-          title="Submit"
-        />
-      </View>
+      <Button
+        color="warning"
+        buttonStyle={styles.submit}
+        onPress={onSave}
+      >I want to adopt</Button>
     </ScrollView>
   );
 };
@@ -148,9 +121,10 @@ const styles = StyleSheet.create({
     color: commonColor,
     paddingLeft: 10,
   },
-  form: {
+  submit: {
+    marginTop: 20,
     marginBottom: 30,
-  },
+  }
 });
 
 export default PetDetail;
