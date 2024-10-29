@@ -9,6 +9,7 @@ import MyAdoption from './page/me/MyAdoption';
 import PetDetail from './page/home/PetDetail';
 import BbsScreen from './page/bbs/BbsScreen';
 import NewPost from './page/bbs/NewPost';
+import SignUp from './page/me/SignUp';
 
 // doc: https://reactnavigation.org/docs/bottom-tab-navigator
 const Tab = createBottomTabNavigator();
@@ -38,6 +39,7 @@ const MeTabNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen name="MeScreen" component={MeScreen} />
       <Stack.Screen name="MyAdoption" component={MyAdoption} />
+      <Stack.Screen name="SignUp" component={SignUp} />
     </Stack.Navigator>
   );
 };
