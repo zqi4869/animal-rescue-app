@@ -7,7 +7,7 @@ import {
   FlatList,
 } from 'react-native';
 
-const BbsScreen = ({navigation}) => {
+const MyAdoption = ({navigation}) => {
   const [dataList, setDataList] = useState([
     {
       id: 1,
@@ -123,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BbsScreen;
+export default MyAdoption;
