@@ -2,6 +2,10 @@ import { Alert } from 'react-native';
 
 const baseUrl = 'http://192.168.1.169:8080'
 
+const getImageUri = (imageName) => {
+  return baseUrl + '/' + imageName
+}
+
 function fetchPost({ routeName, dataJson, method = 'POST', success }) {
   return fetch(baseUrl + routeName, {
     method,
@@ -38,4 +42,4 @@ function fetchGet(routeName, success) {
     })
 }
 
-export { fetchPost, fetchGet, baseUrl }
+export { fetchPost, fetchGet, getImageUri }

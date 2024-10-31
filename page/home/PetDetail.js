@@ -2,10 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, Image, ScrollView, Alert} from 'react-native';
 import {Button, ListItem, Input} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import { getImageUri, fetchGet } from "../utils/http";
 
-const PetDetail = ({navigation}) => {
+const PetDetail = ({navigation, route }) => {
+  const { animal } = route.params
 
-  const tags = ['成都', '弟弟', '3个月'].map((t, index) => (
+  const tags = [animal.city, animal.gender, animal.age].map((t, index) => (
     <View style={styles.card.tag} key={'tag-' + index}>
       <Text style={{color: 'white'}}>{t}</Text>
     </View>
@@ -24,12 +26,12 @@ const PetDetail = ({navigation}) => {
         <View style={styles.card.cardTop}>
           <Image
             style={styles.card.avatar}
-            source={require('../image/cat-1.png')}
+            source={{uri: getImageUri(animal.cover_url)}}
           />
           <View>
-            <Text style={styles.card.title}>短耳</Text>
-            <Text style={styles.card.text}>家猫的崽崽</Text>
-            <Text style={styles.card.text}>上门领养，按时疫苗，适龄绝育</Text>
+            <Text style={styles.card.title}>{animal.name}</Text>
+            <Text style={styles.card.text}>{animal.remark}</Text>
+            <Text style={styles.card.text}>{animal.label}</Text>
           </View>
         </View>
 
@@ -38,14 +40,10 @@ const PetDetail = ({navigation}) => {
 
       <Text style={styles.quote}>Pet story</Text>
       <View style={styles.story}>
-        <Text style={styles.story.content}>
-          它是在2年前，在xxx出生的，性格温顺，可以自己吃饭睡觉啥的          它喜欢玩耍，喜欢跟小朋友一起玩，也喜欢跟其他小猫玩。
-          它很聪明，也很可爱，可爱到你会想把它抱起来亲一口。
-          它喜欢玩耍，喜欢跟小朋友一起玩，也喜欢跟其他小猫玩。
-        </Text>
+        <Text style={styles.story.content}>{animal.story}</Text>
         <Image
           style={styles.story.img}
-          source={require('../image/cat-1.png')}
+          source={{uri: getImageUri(animal.story_img_url)}}
         />
       </View>
 
@@ -109,6 +107,7 @@ const styles = StyleSheet.create({
     },
     img: {
       width: 200,
+      height: 200,
     },
   },
   quote: {

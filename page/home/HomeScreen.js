@@ -4,11 +4,11 @@ import {
   Text,
   View,
   Image,
-  ImageBackground,
   FlatList,
   Dimensions,
 } from 'react-native';
 import {Button, SearchBar} from '@rneui/themed';
+import { getImageUri, fetchGet } from "../utils/http";
 
 // Get screen width
 const screenWidth = Dimensions.get('window').width;
@@ -16,18 +16,16 @@ const screenWidth = Dimensions.get('window').width;
 const HomeScreen = ({navigation}) => {
   const [dataList, setDataList] = useState([]);
   const [searchText, setSearchText] = useState('');
+
   useEffect(() => {
-    setDataList([
-      {title: 'Text1', key: 'item1'},
-      {title: 'Text2', key: 'item2'},
-      {title: 'Text2', key: 'item2'},
-      {title: 'Text2', key: 'item2'},
-    ]);
+    fetchGet('/animal/all', data => {
+      setDataList(data);
+    })
   }, []);
 
-  const viewPetDetail = () => {
+  const viewDetail = (animal) => {
     navigation.navigate('PetDetail', {
-      params: null,
+      animal,
     });
   };
 
@@ -55,19 +53,19 @@ const HomeScreen = ({navigation}) => {
         numColumns={2}
         style={styles.flatList}
         data={dataList}
-        renderItem={({item, index, separators}) => (
+        renderItem={({item, index}) => (
           <View style={styles.imageItem}>
             <Image
               style={styles.image}
-              source={require('../image/cat-1.png')}
+              source={{uri: getImageUri(item.cover_url)}}
             />
             <View style={styles.content}>
-              <Text>NO：1000000</Text>
-              <Text>Category：萨摩</Text>
-              <Text>Gender：Male</Text>
+              <Text>NO：{item.no}</Text>
+              <Text>Name：{item.name}</Text>
+              <Text>Gender：{item.gender}</Text>
               <View style={styles.adoptBtn}>
-                <Button size="sm" color="warning" onPress={viewPetDetail}>
-                  我要领养
+                <Button size="sm" color="warning" onPress={() => viewDetail(item)}>
+                  View Detail
                 </Button>
               </View>
             </View>
