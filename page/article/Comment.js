@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, Image, FlatList, TextInput} from 'react-native';
 import {Button} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 
-const Review = ({reviews}) => {
+const Comment = ({reviews}) => {
   const [dataList, setDataList] = useState([]);
   const [text, setText] = useState([]);
 
@@ -87,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Review;
+export default Comment;

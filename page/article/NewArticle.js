@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, Alert} from 'react-native';
 import {Button, Input} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 
-const NewPost = ({navigation}) => {
+const NewArticle = ({navigation}) => {
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [username, setUsername] = useState('');
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewPost;
+export default NewArticle;

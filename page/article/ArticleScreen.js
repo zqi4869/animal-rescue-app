@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import {Button} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
-import Review from './Review';
+import Comment from './Comment';
 
-const BbsScreen = ({navigation}) => {
+const ArticleScreen = ({navigation}) => {
   const [dataList, setDataList] = useState([
     {
       id: 1,
@@ -84,7 +84,7 @@ const BbsScreen = ({navigation}) => {
       </View>
 
       {/*Review content*/}
-      {item.reviewDisplay && <Review reviews={item.reviews} />}
+      {item.reviewDisplay && <Comment reviews={item.reviews} />}
     </View>
   );
 
@@ -104,7 +104,7 @@ const BbsScreen = ({navigation}) => {
       headerRight: () => (
         <Button
           type="clear"
-          onPress={() => navigation.navigate('NewPost')}
+          onPress={() => navigation.navigate('NewArticle')}
           icon={<AntDesignIcon name="pluscircle" size={24} color="#ffba41" />}
           radius="50"
         />
@@ -177,4 +177,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BbsScreen;
+export default ArticleScreen;

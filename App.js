@@ -7,8 +7,8 @@ import HomeScreen from './page/home/HomeScreen';
 import MeScreen from './page/me/MeScreen';
 import MyAdoption from './page/me/MyAdoption';
 import PetDetail from './page/home/PetDetail';
-import BbsScreen from './page/bbs/BbsScreen';
-import NewPost from './page/bbs/NewPost';
+import ArticleScreen from './page/article/ArticleScreen';
+import NewArticle from './page/article/NewArticle';
 import SignUp from './page/me/SignUp';
 
 // doc: https://reactnavigation.org/docs/bottom-tab-navigator
@@ -25,11 +25,11 @@ const HomeTabNavigator = () => {
   );
 };
 
-const BbsTabNavigator = () => {
+const ArticleTabNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="BbsScreen" component={BbsScreen} />
-      <Stack.Screen name="NewPost" component={NewPost} />
+      <Stack.Screen name="ArticleScreen" component={ArticleScreen} />
+      <Stack.Screen name="NewArticle" component={NewArticle} />
     </Stack.Navigator>
   );
 };
@@ -54,7 +54,7 @@ const App = () => {
             let iconName = 'settings';
             if (route.name === 'Home') {
               iconName = 'home';
-            } else if (route.name === 'BBS') {
+            } else if (route.name === 'Article') {
               iconName = 'chatbox';
             } else if (route.name === 'Pets') {
               iconName = 'basket';
@@ -69,8 +69,8 @@ const App = () => {
           options={{headerShown: false}}
         />
         <Tab.Screen
-          name="BBS"
-          component={BbsTabNavigator}
+          name="Article"
+          component={ArticleTabNavigator}
           options={{headerShown: false}}
         />
         <Tab.Screen
