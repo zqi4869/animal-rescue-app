@@ -6,50 +6,18 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {Button} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import Comment from './Comment';
+import { getImageUri, fetchGet, fetchPut } from "../utils/http";
+import { format } from "../utils/date";
 
 const ArticleScreen = ({navigation}) => {
-  const [dataList, setDataList] = useState([
-    {
-      id: 1,
-      name: '张三',
-      createTime: '2024-05-01 12:30:00',
-      content: '小猫小猫小猫小猫',
-      url: '../image/avator.jpg',
-      like: 12,
-      reviewDisplay: false,
-      reviews: [
-        {
-          id: 1,
-          name: '11111111111111111',
-          createTime: '2024-05-01 12:30:00',
-          content: '小猫小猫小猫小猫',
-          like: 12,
-        },
-        {
-          id: 2,
-          name: '222222222222222',
-          createTime: '2024-05-01 12:30:00',
-          content: '小猫小猫小猫小猫',
-          like: 12,
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: '李四',
-      createTime: '2023-05-01 12:30:00',
-      content: '小猫小猫小猫小猫',
-      url: '../image/avator.jpg',
-      like: 45,
-      reviewDisplay: false,
-      reviews: [],
-    },
-  ]);
-  const renderItem = ({item, index, separators}) => (
+  const [dataList, setDataList] = useState([]);
+
+  const renderItem = ({item, index}) => (
     <View style={styles.card}>
       <View style={styles.card.row}>
         <Image
@@ -57,8 +25,8 @@ const ArticleScreen = ({navigation}) => {
           source={require('../image/avator.jpg')}
         />
         <View>
-          <Text style={styles.card.name}>{item.name}</Text>
-          <Text>{item.createTime}</Text>
+          <Text style={styles.card.name}>{item.user.first_name}</Text>
+          <Text>{format(item.create_time)}</Text>
         </View>
       </View>
       <View style={styles.card.row}>
@@ -75,16 +43,16 @@ const ArticleScreen = ({navigation}) => {
           style={styles.card.toolbar.item}
           onPress={() => onShowReview(item)}>
           <AntDesignIcon name="message1" size={18} style={styles.mr5} />
-          <Text>{item.reviews.length}</Text>
+          <Text>{item.comment_num}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.card.toolbar.item} onPress={() => onLike(item)}>
           <AntDesignIcon name="like2" size={18} style={styles.mr5} />
-          <Text>{item.like}</Text>
+          <Text>{item.like_num}</Text>
         </TouchableOpacity>
       </View>
 
-      {/*Review content*/}
-      {item.reviewDisplay && <Comment reviews={item.reviews} />}
+      {item.reviewDisplay && <Comment articleId={item.id} />}
+
     </View>
   );
 
@@ -94,7 +62,12 @@ const ArticleScreen = ({navigation}) => {
   };
 
   const onLike = item => {
-    // TODO: update like count
+    fetchPut('/article/like', {
+      id: item.id,
+    }, () => {
+      item.like_num += 1;
+      setDataList([...dataList])
+    })
   };
 
   useEffect(() => {
@@ -110,6 +83,10 @@ const ArticleScreen = ({navigation}) => {
         />
       ),
     });
+
+    fetchGet('/article/all', data => {
+      setDataList(data);
+    })
   }, [navigation]);
 
   return (
