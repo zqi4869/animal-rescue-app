@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,useCallback} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,6 +8,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {Button, SearchBar} from '@rneui/themed';
+import { useFocusEffect } from '@react-navigation/native';
 import { getImageUri, fetchGet } from "../utils/http";
 
 // Get screen width
@@ -17,11 +18,14 @@ const HomeScreen = ({navigation}) => {
   const [dataList, setDataList] = useState([]);
   const [searchText, setSearchText] = useState('');
 
-  useEffect(() => {
-    fetchGet('/animal/all', data => {
-      setDataList(data);
-    })
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      // when screen is focused
+      fetchGet('/animal/all', data => {
+        setDataList(data);
+      })
+    }, [])
+  );
 
   const viewDetail = (animal) => {
     navigation.navigate('PetDetail', {

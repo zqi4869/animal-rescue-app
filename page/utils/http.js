@@ -52,8 +52,7 @@ function fetchGet(routeName, success) {
     .then(response => response.json())
     .then(data => {
       if (data.code === 0) {
-        console.log('===========' + routeName)
-        console.log(JSON.stringify(data.data, null, 2)) // todo: debug
+        // console.log(routeName, JSON.stringify(data.data, null, 2)) // todo: debug
         success(data.data);
       } else {
         Alert.alert('Error', data.msg);

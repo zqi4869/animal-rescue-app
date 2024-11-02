@@ -17,6 +17,52 @@ import { format } from "../utils/date";
 const ArticleScreen = ({navigation}) => {
   const [dataList, setDataList] = useState([]);
 
+  const onShowReview = item => {
+    item.reviewDisplay = !item.reviewDisplay;
+    setDataList([...dataList]); // re-render
+  };
+
+  const onLike = item => {
+    fetchPut('/article/like', {
+      id: item.id,
+    }, () => {
+      item.like_num += 1;
+      setDataList([...dataList])
+    })
+  };
+
+  const query = () => {
+    fetchGet('/article/all', data => {
+      setDataList(data);
+    })
+  }
+
+  const onFresh = (articleId) => {
+    dataList.forEach(item => {
+      if (item.id === articleId) {
+        item.comment_num += 1;
+      }
+    });
+    setDataList([...dataList]); // re-render
+  }
+
+  useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          type="clear"
+          onPress={() => navigation.navigate('NewArticle')}
+          icon={<AntDesignIcon name="pluscircle" size={24} color="#ffba41" />}
+          radius="50"
+        />
+      ),
+    });
+
+    query()
+  }, [navigation]);
+
   const renderItem = ({item, index}) => (
     <View style={styles.card}>
       <View style={styles.card.row}>
@@ -51,43 +97,10 @@ const ArticleScreen = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      {item.reviewDisplay && <Comment articleId={item.id} />}
+      {item.reviewDisplay && <Comment articleId={item.id} onFresh={onFresh} />}
 
     </View>
   );
-
-  const onShowReview = item => {
-    item.reviewDisplay = !item.reviewDisplay;
-    setDataList([...dataList]); // re-render
-  };
-
-  const onLike = item => {
-    fetchPut('/article/like', {
-      id: item.id,
-    }, () => {
-      item.like_num += 1;
-      setDataList([...dataList])
-    })
-  };
-
-  useEffect(() => {
-    // Use `setOptions` to update the button that we previously specified
-    // Now the button includes an `onPress` handler to update the count
-    navigation.setOptions({
-      headerRight: () => (
-        <Button
-          type="clear"
-          onPress={() => navigation.navigate('NewArticle')}
-          icon={<AntDesignIcon name="pluscircle" size={24} color="#ffba41" />}
-          radius="50"
-        />
-      ),
-    });
-
-    fetchGet('/article/all', data => {
-      setDataList(data);
-    })
-  }, [navigation]);
 
   return (
     <View style={styles.container}>

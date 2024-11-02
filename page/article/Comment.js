@@ -1,20 +1,39 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useCallback } from 'react';
 import {StyleSheet, Text, View, Image, FlatList, TextInput} from 'react-native';
 import {Button} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import { useFocusEffect } from '@react-navigation/native';
 import { getImageUri, fetchGet, fetchPost } from "../utils/http";
 import { format } from "../utils/date";
 
-const Comment = ({ articleId }) => {
+const Comment = ({ articleId, onFresh }) => {
   const [dataList, setDataList] = useState([]);
   const [comment, setComment] = useState('');
 
-  useEffect(() => {
+  const query = () => {
     // fetch comment data from server
     fetchGet('/comment/all?articleId=' + articleId, data => {
       setDataList(data);
+    });
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      query()
+    }, [])
+  );
+
+  const submitComment = () => {
+    fetchPost('/comment/save', {
+      article_id: articleId,
+      user_id: '6721c5f4ee78e56cd9e71d81', // todo: get user id from login
+      comment: comment,
+    }, (data) => {
+      setComment('')
+      query()
+      onFresh(articleId)
     })
-  }, [articleId]);
+  };
 
   const renderItem = ({item, index}) => (
     <View style={styles.card}>
@@ -29,16 +48,6 @@ const Comment = ({ articleId }) => {
       </View>
     </View>
   );
-
-  const submitComment = () => {
-    fetchPost('/comment/save', {
-      article_id: articleId,
-      user_id: '6721c5f4ee78e56cd9e71d81', // todo: get user id from login
-      comment: comment,
-    }, () => {
-      setText('')
-    })
-  };
 
   return (
     <View style={styles.container}>
