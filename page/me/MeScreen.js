@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, ImageBackground, Alert, Image} from 'react-nativ
 import {Button, ListItem, Input} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getImageUri, fetchPost, fetchGet } from "../utils/http";
 
 const MeScreen = ({navigation}) => {
   const [menus, setMenus] = useState([
@@ -13,12 +14,15 @@ const MeScreen = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLogin, setIsLogin] = useState(false)
-
-  // AsyncStorage.setItem('token', 'bbbbbb')
+  const [loginUser, setLoginUser] = useState({})
 
   const checkLogin = async () => {
-    const token = await AsyncStorage.getItem('token')
-    setIsLogin(!!token)
+    const loginUser = await AsyncStorage.getItem('loginUser')
+    setIsLogin(!!loginUser)
+    if(loginUser) {
+      setIsLogin(true)
+      setLoginUser(JSON.parse(loginUser))
+    }
   };
 
   useEffect(() => {
@@ -39,13 +43,24 @@ const MeScreen = ({navigation}) => {
   }
 
   const onLogin = () => {
-    const success = true
-    if (success) {
-      setIsLogin(true)
-      AsyncStorage.setItem('token', 'bbbbbb')
-    } else {
+    if(!username || !password) {
       Alert.alert('Message', 'Username or password is incorrect');
+      return
     }
+    fetchPost('/login', {
+      username,
+      password,
+      role: 'user,'
+    }, (data) => {
+      setIsLogin(true)
+      AsyncStorage.setItem('token', data)
+
+      fetchGet('/user/info?username='+username, (loginUser) => {
+        setLoginUser(loginUser)
+        AsyncStorage.setItem('loginUser', JSON.stringify(loginUser))
+      })
+    })
+
   }
   const onExit = () => {
     setIsLogin(false)
@@ -72,9 +87,9 @@ const MeScreen = ({navigation}) => {
   const settingComponent = (
     <View style={styles.setting}>
       <View style={styles.information}>
-        <Text style={styles.text}>张三</Text>
-        <Image style={styles.avatar} source={require('../image/cat-1.png')} />
-        <Text style={styles.text}>13799856655</Text>
+        <Text style={styles.text}>{loginUser.first_name + ' ' + loginUser.last_name}</Text>
+        <Image style={styles.avatar} source={{uri: getImageUri(loginUser.avatar)}} />
+        <Text style={styles.text}>{loginUser.phone}</Text>
       </View>
       <View>
         {listItemComponent}
