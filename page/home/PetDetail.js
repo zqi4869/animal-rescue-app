@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, Image, ScrollView, Alert} from 'react-native';
 import {Button, ListItem, Input} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
-import { getImageUri, fetchGet } from "../utils/http";
+import { getImageUri, fetchPost } from "../utils/http";
 
 const PetDetail = ({navigation, route }) => {
   const { animal } = route.params
@@ -14,10 +14,14 @@ const PetDetail = ({navigation, route }) => {
   ));
 
   const onSave = () => {
-    if (address && phone && username) {
+    fetchPost('/adoption/save', {
+      animal_id: animal.id,
+      user_id: '6721c5f4ee78e56cd9e71d81', // todo: get user id from login
+    }, () => {
       Alert.alert('Message', 'Adopt successfully');
       navigation.goBack();
-    }
+    })
+
   };
 
   return (
