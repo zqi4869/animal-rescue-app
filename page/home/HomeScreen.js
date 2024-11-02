@@ -33,17 +33,24 @@ const HomeScreen = ({navigation}) => {
     });
   };
 
+  const onSearch = (text) => {
+    setSearchText(text);
+    const filteredData = dataList.filter(item => {
+      return item.name.toLowerCase().includes(text.toLowerCase());
+    });
+    setDataList(filteredData);
+  };
+
   return (
     <View style={styles.container}>
-      {/*<Text style={styles.logoText}>宠物领养</Text>*/}
       <SearchBar
         platform="default"
         containerStyle={{width: '100%'}}
-        inputContainerStyle={{}}
+        inputContainerStyle={{backgroundColor: '#fff'}}
         inputStyle={{}}
         leftIconContainerStyle={{display: 'none'}}
         rightIconContainerStyle={{display: 'none'}}
-        onChangeText={newVal => console.log(newVal)}
+        onChangeText={onSearch}
         placeholder="Search Pets..."
         placeholderTextColor="#888"
         round
@@ -51,7 +58,6 @@ const HomeScreen = ({navigation}) => {
       />
 
       <Image style={styles.badge} source={require('../image/badge.jpg')} />
-      <Text style={{marginTop: 20, color: '#000'}}>Need your help!</Text>
 
       <FlatList
         numColumns={2}
@@ -85,21 +91,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     backgroundColor: '#fec41a',
   },
   badge: {
     width: '100%',
     height: 150,
-  },
-  logoText: {
-    width: '100%',
-    fontSize: 42,
-    lineHeight: 84,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    backgroundColor: '#98de1b',
-    color: '#fecb14',
   },
   imageItem: {
     backgroundColor: '#fff',

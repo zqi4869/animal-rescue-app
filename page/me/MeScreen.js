@@ -6,15 +6,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getImageUri, fetchPost, fetchGet } from "../utils/http";
 
 const MeScreen = ({navigation}) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLogin, setIsLogin] = useState(false)
+  const [loginUser, setLoginUser] = useState({})
   const [menus, setMenus] = useState([
     {id: 2, label: 'My Adoption', desc: 'See', icon: 'menuunfold'},
     {id: 3, label: 'About', desc: 'About Us', icon: 'idcard'},
     {id: 4, label: 'Version', desc: '1.0.0', icon: 'exclamationcircleo'},
   ]);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLogin, setIsLogin] = useState(false)
-  const [loginUser, setLoginUser] = useState({})
+
 
   const checkLogin = async () => {
     const loginUser = await AsyncStorage.getItem('loginUser')
