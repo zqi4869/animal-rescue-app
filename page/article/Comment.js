@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import {StyleSheet, Text, View, Image, FlatList, TextInput} from 'react-native';
 import {Button} from '@rneui/themed';
-import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { useFocusEffect } from '@react-navigation/native';
 import { getImageUri, fetchGet, fetchPost } from "../utils/http";
 import { format } from "../utils/date";
@@ -57,7 +56,7 @@ const Comment = ({ articleId, onFresh }) => {
         renderItem={renderItem}
       />
       <TextInput
-        style={styles.textInput}
+        style={styles.commentInput}
         multiline
         numberOfLines={4}
         onChangeText={setComment}
@@ -97,7 +96,7 @@ const styles = StyleSheet.create({
       marginRight: 10,
     },
   },
-  textInput: {
+  commentInput: {
     borderWidth: 1,
     borderColor: 'rgb(176,171,171)',
     borderRadius: 5,

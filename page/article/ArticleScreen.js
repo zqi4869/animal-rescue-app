@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {Button} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import { useFocusEffect } from '@react-navigation/native';
 import Comment from './Comment';
 import { getImageUri, fetchGet, fetchPut } from "../utils/http";
 import { format } from "../utils/date";
@@ -46,6 +47,12 @@ const ArticleScreen = ({navigation}) => {
     setDataList([...dataList]); // re-render
   }
 
+  useFocusEffect(
+    useCallback(() => {
+      query()
+    }, [])
+  );
+
   useEffect(() => {
     // Use `setOptions` to update the button that we previously specified
     // Now the button includes an `onPress` handler to update the count
@@ -59,8 +66,6 @@ const ArticleScreen = ({navigation}) => {
         />
       ),
     });
-
-    query()
   }, [navigation]);
 
   const renderItem = ({item, index}) => (
@@ -68,7 +73,7 @@ const ArticleScreen = ({navigation}) => {
       <View style={styles.card.row}>
         <Image
           style={styles.card.avatar}
-          source={require('../image/avator.jpg')}
+          source={{ uri: getImageUri(item.user.avatar) }}
         />
         <View>
           <Text style={styles.card.name}>{item.user.first_name}</Text>
@@ -78,12 +83,16 @@ const ArticleScreen = ({navigation}) => {
       <View style={styles.card.row}>
         <Text>{item.content}</Text>
       </View>
-      <View style={styles.card.row}>
-        <Image
-          style={styles.card.coverImg}
-          source={require('../image/avator.jpg')}
-        />
-      </View>
+      {
+        item.img_url
+        &&
+        <View style={styles.card.row}>
+          <Image
+            style={styles.card.coverImg}
+            source={{ uri: getImageUri(item.img_url) }}
+          />
+        </View>
+      }
       <View style={styles.card.toolbar}>
         <TouchableOpacity
           style={styles.card.toolbar.item}
