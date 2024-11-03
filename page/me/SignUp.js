@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {Button, Input} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import FileUpload from "../../components/FileUpload";
@@ -8,6 +8,7 @@ import { getImageUri, fetchPost } from "../utils/http";
 const SignUp = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [uploadImageName, setUploadImageName] = useState(null);
 
   const onSubmit = () => {
     fetchPost('/user/save', {
@@ -16,6 +17,10 @@ const SignUp = ({navigation}) => {
     }, () => {
       navigation.goBack()
     })
+  };
+
+  const onUploadSuccess = imageName => {
+    setUploadImageName(imageName);
   };
 
   return (
@@ -32,7 +37,7 @@ const SignUp = ({navigation}) => {
           type="password"
           onChangeText={pwd => setPassword(pwd)}
         />
-        <FileUpload />
+        <FileUpload onUploadSuccess={onUploadSuccess} />
         <Button
           color="warning"
           icon={<AntDesignIcon name="save" size={20} color="#fff" />}

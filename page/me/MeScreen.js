@@ -66,6 +66,7 @@ const MeScreen = ({navigation}) => {
   const onExit = () => {
     setIsLogin(false)
     AsyncStorage.removeItem('token')
+    AsyncStorage.removeItem('loginUser')
   }
 
   const listItemComponent = menus.map((item, index) => (
