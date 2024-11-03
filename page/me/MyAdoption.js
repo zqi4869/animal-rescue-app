@@ -6,64 +6,42 @@ import {
   Image,
   FlatList,
 } from 'react-native';
+import { getImageUri, fetchGet } from "../utils/http";
 
-const MyAdoption = ({navigation}) => {
-  const [dataList, setDataList] = useState([
-    {
-      id: 1,
-      name: '张三',
-      createTime: '2024-05-01 12:30:00',
-      content: '小猫小猫小猫小猫',
-      url: '../image/avator.jpg',
-      like: 12,
-      reviewDisplay: false,
-      reviews: [
-        {
-          id: 1,
-          name: '11111111111111111',
-          createTime: '2024-05-01 12:30:00',
-          content: '小猫小猫小猫小猫',
-          like: 12,
-        },
-        {
-          id: 2,
-          name: '222222222222222',
-          createTime: '2024-05-01 12:30:00',
-          content: '小猫小猫小猫小猫',
-          like: 12,
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: '李四',
-      createTime: '2023-05-01 12:30:00',
-      content: '小猫小猫小猫小猫',
-      url: '../image/avator.jpg',
-      like: 45,
-      reviewDisplay: false,
-      reviews: [],
-    },
-  ]);
-  const renderItem = ({item, index, separators}) => (
+const MyAdoption = ({navigation, route}) => {
+  const {userId} = route.params;
+  const [dataList, setDataList] = useState([]);
+
+  useEffect(() => {
+    fetchGet('/adoption/all?userId=' + userId, (data) => {
+      setDataList(data)
+    })
+  }, [])
+
+  const renderItem = ({item, index}) => (
     <View style={styles.card}>
       <View style={styles.card.row}>
-        <Image
-          style={styles.card.avatar}
-          source={require('../image/avator.jpg')}
-        />
+        <Image style={styles.card.avatar} source={{ uri: getImageUri(item.animal.cover_url) }}/>
         <View>
-          <Text style={styles.card.name}>{item.name}</Text>
-          <Text>{item.createTime}</Text>
+          <Text style={styles.card.name}>{item.animal.name}(No.{item.animal.no})</Text>
+          <Text>{item.animal.remark}</Text>
         </View>
       </View>
       <View style={styles.card.row}>
-        <Text>{item.content}</Text>
+        <Text style={styles.tag}>{item.animal.city}</Text>
+        <Text style={styles.tag}>{item.animal.gender}</Text>
+        <Text style={styles.tag}>{item.animal.age}</Text>
+        {
+          item.animal.label.split(' ').map((label) => {
+            return <Text style={styles.tag}>{label}</Text>
+          })
+        }
       </View>
       <Image
         style={styles.card.coverImg}
-        source={require('../image/avator.jpg')}
+        source={{ uri: getImageUri(item.animal.story_img_url) }}
       />
+      <Text>{item.animal.story}</Text>
     </View>
   );
 
@@ -82,14 +60,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    // justifyContent: 'center',
     padding: 10,
   },
   flatList: {
     width: '100%',
   },
-  mr5: {
-    marginRight: 5,
+  tag: {
+    backgroundColor: '#3ac55f',
+    color: '#fff',
+    borderRadius: 5,
+    padding: 5,
+    marginRight: 6,
   },
   card: {
     width: '100%',

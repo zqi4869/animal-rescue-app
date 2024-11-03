@@ -33,7 +33,7 @@ const MeScreen = ({navigation}) => {
   const onPress = item => {
       switch (item.id) {
         case 2:
-          navigation.navigate('MyAdoption');
+          navigation.navigate('MyAdoption', {userId: loginUser.id});
           break;
         case 3:
           Alert.alert('About Us', 'This is a pet adoption app');

@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, Image, ScrollView, Alert} from 'react-native';
 import {Button, ListItem, Input} from '@rneui/themed';
-import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { getImageUri, fetchPost } from "../utils/http";
+import { GlobalStorage } from "../utils/store";
 
 const PetDetail = ({navigation, route }) => {
   const { animal } = route.params
@@ -14,14 +14,15 @@ const PetDetail = ({navigation, route }) => {
   ));
 
   const onSave = () => {
-    fetchPost('/adoption/save', {
-      animal_id: animal.id,
-      user_id: '6721c5f4ee78e56cd9e71d81', // todo: get user id from login
-    }, () => {
-      Alert.alert('Message', 'Adopt successfully');
-      navigation.goBack();
+    GlobalStorage('loginUser', 'json').then(loginUser => {
+      fetchPost('/adoption/save', {
+        animal_id: animal.id,
+        user_id: loginUser.id,
+      }, () => {
+        Alert.alert('Message', 'Adopt successfully');
+        navigation.goBack();
+      })
     })
-
   };
 
   return (

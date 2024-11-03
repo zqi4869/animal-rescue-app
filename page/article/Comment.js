@@ -4,6 +4,7 @@ import {Button} from '@rneui/themed';
 import { useFocusEffect } from '@react-navigation/native';
 import { getImageUri, fetchGet, fetchPost } from "../utils/http";
 import { format } from "../utils/date";
+import { GlobalStorage } from "../utils/store";
 
 const Comment = ({ articleId, onFresh }) => {
   const [dataList, setDataList] = useState([]);
@@ -22,15 +23,17 @@ const Comment = ({ articleId, onFresh }) => {
     }, [])
   );
 
-  const submitComment = () => {
-    fetchPost('/comment/save', {
-      article_id: articleId,
-      user_id: '6721c5f4ee78e56cd9e71d81', // todo: get user id from login
-      comment: comment,
-    }, (data) => {
-      setComment('')
-      query()
-      onFresh(articleId)
+  const onSave = () => {
+    GlobalStorage('loginUser', 'json').then(loginUser => {
+      fetchPost('/comment/save', {
+        article_id: articleId,
+        user_id: loginUser.id,
+        comment: comment,
+      }, () => {
+        setComment('')
+        query()
+        onFresh(articleId)
+      })
     })
   };
 
@@ -65,7 +68,7 @@ const Comment = ({ articleId, onFresh }) => {
         textAlignVertical="top"
       />
       <View style={styles.buttonContainer}>
-        <Button size="sm" color="success" onPress={submitComment}>
+        <Button size="sm" color="success" onPress={onSave}>
           Submit
         </Button>
       </View>

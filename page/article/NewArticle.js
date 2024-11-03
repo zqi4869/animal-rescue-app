@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, Alert, TextInput} from 'react-native';
-import {Button, Input} from '@rneui/themed';
+import React, {useState} from 'react';
+import {StyleSheet, View, Alert, TextInput} from 'react-native';
+import {Button} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import FileUpload from '../../components/FileUpload';
 import { getImageUri, fetchPost } from "../utils/http";
+import { GlobalStorage } from "../utils/store";
 
 const NewArticle = ({navigation}) => {
   const [title, setTitle] = useState('');
@@ -12,14 +13,16 @@ const NewArticle = ({navigation}) => {
 
   const onSave = () => {
     if (title && content) {
-      fetchPost('/article/save', {
-        title,
-        content,
-        img_url,
-        user_id: '6721c5f4ee78e56cd9e71d81', // todo: get user id from login
-      }, () => {
-        Alert.alert('Message', 'Save successfully');
-        navigation.goBack();
+      GlobalStorage('loginUser', 'json').then(loginUser => {
+        fetchPost('/article/save', {
+          title,
+          content,
+          img_url,
+          user_id: loginUser.id,
+        }, () => {
+          Alert.alert('Message', 'Save successfully');
+          navigation.goBack();
+        })
       })
     } else {
       Alert.alert('Message', 'Please fill all fields');
