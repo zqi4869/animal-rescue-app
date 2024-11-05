@@ -3,24 +3,25 @@ import { StyleSheet, View } from 'react-native';
 import {Button, Input} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import FileUpload from "../../components/FileUpload";
-import { getImageUri, fetchPost } from "../utils/http";
+import { simplePost } from "../utils/http";
 
 const SignUp = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [uploadImageName, setUploadImageName] = useState(null);
+  const [avatar, setAvatar] = useState(null);
 
   const onSubmit = () => {
-    fetchPost('/user/save', {
+    simplePost('/user/save', {
       username,
       password,
+      avatar
     }, () => {
       navigation.goBack()
     })
   };
 
   const onUploadSuccess = imageName => {
-    setUploadImageName(imageName);
+    setAvatar(imageName);
   };
 
   return (

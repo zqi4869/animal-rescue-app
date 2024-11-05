@@ -22,6 +22,8 @@ const PetDetail = ({navigation, route }) => {
         Alert.alert('Message', 'Adopt successfully');
         navigation.goBack();
       })
+    }).catch(() => {
+      Alert.alert('Message', 'Please login first');
     })
   };
 

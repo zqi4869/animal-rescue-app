@@ -15,6 +15,7 @@ import { getImageUri, fetchGet } from "../utils/http";
 const screenWidth = Dimensions.get('window').width;
 
 const HomeScreen = ({navigation}) => {
+  const [dataAll, setDataAll] = useState([]);
   const [dataList, setDataList] = useState([]);
   const [searchText, setSearchText] = useState('');
 
@@ -23,6 +24,7 @@ const HomeScreen = ({navigation}) => {
       // when screen is focused
       fetchGet('/animal/all', data => {
         setDataList(data);
+        setDataAll([...data])
       })
     }, [])
   );
@@ -35,7 +37,7 @@ const HomeScreen = ({navigation}) => {
 
   const onSearch = (text) => {
     setSearchText(text);
-    const filteredData = dataList.filter(item => {
+    const filteredData = dataAll.filter(item => {
       return item.name.toLowerCase().includes(text.toLowerCase());
     });
     setDataList(filteredData);

@@ -6,7 +6,6 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import {Button} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
@@ -14,6 +13,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import Comment from './Comment';
 import { getImageUri, fetchGet, fetchPut } from "../utils/http";
 import { format } from "../utils/date";
+import { checkLogin } from "../utils/store";
 
 const ArticleScreen = ({navigation}) => {
   const [dataList, setDataList] = useState([]);
@@ -24,11 +24,13 @@ const ArticleScreen = ({navigation}) => {
   };
 
   const onLike = item => {
-    fetchPut('/article/like', {
-      id: item.id,
-    }, () => {
-      item.like_num += 1;
-      setDataList([...dataList])
+    checkLogin(() => {
+      fetchPut('/article/like', {
+        id: item.id,
+      }, () => {
+        item.like_num += 1;
+        setDataList([...dataList])
+      })
     })
   };
 
@@ -47,6 +49,12 @@ const ArticleScreen = ({navigation}) => {
     setDataList([...dataList]); // re-render
   }
 
+  const onAddArticle = () => {
+    checkLogin(() =>{
+      navigation.navigate('NewArticle');
+    })
+  }
+
   useFocusEffect(
     useCallback(() => {
       query()
@@ -60,7 +68,7 @@ const ArticleScreen = ({navigation}) => {
       headerRight: () => (
         <Button
           type="clear"
-          onPress={() => navigation.navigate('NewArticle')}
+          onPress={onAddArticle}
           icon={<AntDesignIcon name="pluscircle" size={24} color="#ffba41" />}
           radius="50"
         />

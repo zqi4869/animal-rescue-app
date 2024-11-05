@@ -19,7 +19,7 @@ const MyAdoption = ({navigation, route}) => {
   }, [])
 
   const renderItem = ({item, index}) => (
-    <View style={styles.card}>
+    <View style={styles.card} key={index}>
       <View style={styles.card.row}>
         <Image style={styles.card.avatar} source={{ uri: getImageUri(item.animal.cover_url) }}/>
         <View>

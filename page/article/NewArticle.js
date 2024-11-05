@@ -11,6 +11,10 @@ const NewArticle = ({navigation}) => {
   const [content, setContent] = useState('');
   const [img_url, setImg_url] = useState('');
 
+  const onUploadSuccess = imageName => {
+    setImg_url(imageName);
+  };
+
   const onSave = () => {
     if (title && content) {
       GlobalStorage('loginUser', 'json').then(loginUser => {
@@ -23,6 +27,8 @@ const NewArticle = ({navigation}) => {
           Alert.alert('Message', 'Save successfully');
           navigation.goBack();
         })
+      }).catch(() => {
+        console.log(1111111111)
       })
     } else {
       Alert.alert('Message', 'Please fill all fields');
@@ -50,7 +56,7 @@ const NewArticle = ({navigation}) => {
           placeholder="Type your article here..."
           textAlignVertical="top"
         />
-        <FileUpload />
+        <FileUpload onUploadSuccess={onUploadSuccess} />
         <Button
           color="warning"
           style={styles.button}

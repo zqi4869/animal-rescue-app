@@ -9,7 +9,7 @@ import {
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
-import { getImageUri, fetchPost } from "../page/utils/http";
+import { getImageUri, fetchPost, simplePost } from "../page/utils/http";
 
 const FileUpload = ({ onUploadSuccess }) => {
   const [uploadImageName, setUploadImageName] = useState(null);
@@ -30,7 +30,7 @@ const FileUpload = ({ onUploadSuccess }) => {
         // console.log(response)
         const imageUri = response.assets?.[0]?.uri
         RNFS.readFile(imageUri, 'base64').then((base64Image) => {
-          fetchPost('/user/upload', {
+          simplePost('/user/upload', {
             base64: base64Image,
             fileName: response.assets?.[0]?.fileName,
           }, (imageName) => {

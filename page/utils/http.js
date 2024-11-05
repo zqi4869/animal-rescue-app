@@ -31,6 +31,26 @@ function fetchPost(routeName, dataJson, success) {
   })
 }
 
+function simplePost(routeName, dataJson, success) {
+  fetch(baseUrl + routeName, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(dataJson)
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.code === 0) {
+        success(data.data);
+      } else {
+        Alert.alert('Error', data.msg);
+      }
+    }).catch(error => {
+    Alert.alert('Error', error);
+  })
+}
+
 function fetchPut(routeName, dataJson, success) {
   fetch(baseUrl + routeName, {
     method: 'PUT',
@@ -67,4 +87,4 @@ function fetchGet(routeName, success) {
     })
 }
 
-export { fetchPost, fetchGet, fetchPut, getImageUri }
+export { fetchPost, fetchGet, fetchPut, getImageUri, simplePost }

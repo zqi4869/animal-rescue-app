@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, ImageBackground, Alert, Image} from 'react-nativ
 import {Button, ListItem, Input} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getImageUri, fetchPost, fetchGet } from "../utils/http";
+import { getImageUri, fetchPost, fetchGet, simplePost } from "../utils/http";
 
 const MeScreen = ({navigation}) => {
   const [username, setUsername] = useState('');
@@ -48,7 +48,8 @@ const MeScreen = ({navigation}) => {
       Alert.alert('Message', 'Username or password is incorrect');
       return
     }
-    fetchPost('/login', {
+
+    simplePost('/login', {
       username,
       password,
       role: 'user,'

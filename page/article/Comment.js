@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import {StyleSheet, Text, View, Image, FlatList, TextInput} from 'react-native';
+import {StyleSheet, Alert, Text, View, Image, FlatList, TextInput} from 'react-native';
 import {Button} from '@rneui/themed';
 import { useFocusEffect } from '@react-navigation/native';
 import { getImageUri, fetchGet, fetchPost } from "../utils/http";
@@ -34,6 +34,8 @@ const Comment = ({ articleId, onFresh }) => {
         query()
         onFresh(articleId)
       })
+    }).catch(() => {
+      Alert.alert('Message', 'Please login first')
     })
   };
 
