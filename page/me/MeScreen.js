@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, ImageBackground, Alert, Image} from 'react-nativ
 import {Button, ListItem, Input} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getImageUri, fetchPost, fetchGet, simplePost } from "../utils/http";
+import { getImageUri, fetchPost, fetchGet, simplePost } from "../utils/request";
 
 const MeScreen = ({navigation}) => {
   const [username, setUsername] = useState('');

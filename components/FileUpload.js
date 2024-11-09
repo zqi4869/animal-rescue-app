@@ -9,7 +9,7 @@ import {
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
-import { getImageUri, fetchPost, simplePost } from "../page/utils/http";
+import { getImageUri, fetchPost, simplePost } from "../page/utils/request";
 
 const FileUpload = ({ onUploadSuccess }) => {
   const [uploadImageName, setUploadImageName] = useState(null);

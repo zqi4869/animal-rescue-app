@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import {StyleSheet, Alert, Text, View, Image, FlatList, TextInput} from 'react-native';
 import {Button} from '@rneui/themed';
 import { useFocusEffect } from '@react-navigation/native';
-import { getImageUri, fetchGet, fetchPost } from "../utils/http";
+import { getImageUri, fetchGet, fetchPost } from "../utils/request";
 import { format } from "../utils/date";
 import { GlobalStorage } from "../utils/store";
 

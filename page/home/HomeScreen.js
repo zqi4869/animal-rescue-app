@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {Button, SearchBar} from '@rneui/themed';
 import { useFocusEffect } from '@react-navigation/native';
-import { getImageUri, fetchGet } from "../utils/http";
+import { getImageUri, fetchGet } from "../utils/request";
 
 // Get screen width
 const screenWidth = Dimensions.get('window').width;

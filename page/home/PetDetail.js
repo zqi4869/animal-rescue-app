@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, Image, ScrollView, Alert} from 'react-native';
 import {Button, ListItem, Input} from '@rneui/themed';
-import { getImageUri, fetchPost } from "../utils/http";
+import { getImageUri, fetchPost } from "../utils/request";
 import { GlobalStorage } from "../utils/store";
 
 const PetDetail = ({navigation, route }) => {

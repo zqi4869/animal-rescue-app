@@ -11,7 +11,7 @@ import {Button} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { useFocusEffect } from '@react-navigation/native';
 import Comment from './Comment';
-import { getImageUri, fetchGet, fetchPut } from "../utils/http";
+import { getImageUri, fetchGet, fetchPut } from "../utils/request";
 import { format } from "../utils/date";
 import { checkLogin } from "../utils/store";
 

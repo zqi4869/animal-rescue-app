@@ -6,7 +6,7 @@ import {
   Image,
   FlatList,
 } from 'react-native';
-import { getImageUri, fetchGet } from "../utils/http";
+import { getImageUri, fetchGet } from "../utils/request";
 
 const MyAdoption = ({navigation, route}) => {
   const {userId} = route.params;

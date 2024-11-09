@@ -3,7 +3,7 @@ import {StyleSheet, View, Alert, TextInput} from 'react-native';
 import {Button} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import FileUpload from '../../components/FileUpload';
-import { getImageUri, fetchPost } from "../utils/http";
+import { getImageUri, fetchPost } from "../utils/request";
 import { GlobalStorage } from "../utils/store";
 
 const NewArticle = ({navigation}) => {

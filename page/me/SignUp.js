@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import {Button, Input} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import FileUpload from "../../components/FileUpload";
-import { simplePost } from "../utils/http";
+import { simplePost } from "../utils/request";
 
 const SignUp = ({navigation}) => {
   const [username, setUsername] = useState('');
