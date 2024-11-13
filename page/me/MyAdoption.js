@@ -32,7 +32,7 @@ const MyAdoption = ({navigation, route}) => {
         <Text style={styles.tag}>{item.animal.gender}</Text>
         <Text style={styles.tag}>{item.animal.age}</Text>
         {
-          item.animal.label.split(' ').map((label) => {
+          item.animal.label.split('#').map((label) => {
             return <Text style={styles.tag}>{label}</Text>
           })
         }
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     marginRight: 6,
+    marginBottom: 6,
   },
   card: {
     width: '100%',
@@ -88,6 +89,7 @@ const styles = StyleSheet.create({
     },
     row: {
       flexDirection: 'row',
+      flexWrap: 'wrap',
       alignItems: 'center',
       marginTop: 10,
     },

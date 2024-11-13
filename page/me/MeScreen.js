@@ -52,7 +52,7 @@ const MeScreen = ({navigation}) => {
     simplePost('/login', {
       username,
       password,
-      role: 'user,'
+      role: 'user'
     }, (data) => {
       setIsLogin(true)
       AsyncStorage.setItem('token', data)

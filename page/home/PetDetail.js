@@ -38,7 +38,9 @@ const PetDetail = ({navigation, route }) => {
           <View>
             <Text style={styles.card.title}>{animal.name}</Text>
             <Text style={styles.card.text}>{animal.remark}</Text>
-            <Text style={styles.card.text}>{animal.label}</Text>
+            <Text style={styles.card.text}>
+              {animal.label.replaceAll('#', ' ')}
+            </Text>
           </View>
         </View>
 
@@ -63,7 +65,7 @@ const PetDetail = ({navigation, route }) => {
   );
 };
 
-const commonColor = '#6c5cd3';
+const color1 = '#6c5cd3';
 
 const styles = StyleSheet.create({
   container: {
@@ -73,7 +75,7 @@ const styles = StyleSheet.create({
   },
   card: {
     flexDirection: 'column',
-    backgroundColor: commonColor,
+    backgroundColor: color1,
     padding: 18,
     borderRadius: 20,
     marginBottom: 20,
@@ -111,6 +113,7 @@ const styles = StyleSheet.create({
     content: {
       fontSize: 20,
       lineHeight: 24,
+      marginBottom: 20,
     },
     img: {
       width: 200,
@@ -123,8 +126,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
     borderLeftWidth: 4,
-    borderLeftColor: commonColor,
-    color: commonColor,
+    borderLeftColor: color1,
+    color: color1,
     paddingLeft: 10,
   },
   submit: {

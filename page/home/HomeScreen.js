@@ -22,7 +22,7 @@ const HomeScreen = ({navigation}) => {
   useFocusEffect(
     useCallback(() => {
       // when screen is focused
-      fetchGet('/animal/all', data => {
+      fetchGet('/animal/unAdopt/list', data => {
         setDataList(data);
         setDataAll([...data])
       })

@@ -89,6 +89,9 @@ const ArticleScreen = ({navigation}) => {
         </View>
       </View>
       <View style={styles.card.row}>
+        <Text style={styles.card.name}>Title: {item.title}</Text>
+      </View>
+      <View style={styles.card.row}>
         <Text>{item.content}</Text>
       </View>
       {
