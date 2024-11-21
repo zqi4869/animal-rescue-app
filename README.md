@@ -1,6 +1,11 @@
 # Overview
 This project is a mobile application using reactnative.
 
+# Run
+```
+npx react-native run-android
+```
+
 # Prerequisites
 Before you begin, ensure that you have the following installed on your system:
 
