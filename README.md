@@ -1,7 +1,7 @@
 # Overview
 This project is a mobile application using reactnative.
 
-# Run
+# Build & Run
 ```
 npx react-native run-android
 ```
