@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   StyleSheet,
+  Alert,
   Text,
   View,
   Image,
@@ -11,12 +12,30 @@ import {Button} from '@rneui/themed';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { useFocusEffect } from '@react-navigation/native';
 import Comment from './Comment';
-import { getImageUri, fetchGet, fetchPut } from "../utils/request";
+import { getImageUri, fetchGet, fetchPut, fetchPost } from "../utils/request";
 import { format } from "../utils/date";
-import { checkLogin } from "../utils/store";
+import { checkLogin, GlobalStorage } from "../utils/store";
 
 const ArticleScreen = ({navigation}) => {
   const [dataList, setDataList] = useState([]);
+  const [loginUser, setLoginUser] = useState({});
+
+  const onDeleteArticle = item => {
+    Alert.alert('Message', 'Do you want to delete this article?', [
+      {text: 'Yes', onPress: () => {
+          checkLogin(() => {
+            fetchPost('/article/delete', {
+              id: item.id,
+            }, () =>{
+              query()
+              Alert.alert('Message', 'Successfully deleted')
+            })
+          })
+        }
+      },
+      {text: 'No', onPress: () => console.log('No Pressed')},
+    ])
+  }
 
   const onShowReview = item => {
     item.reviewDisplay = !item.reviewDisplay;
@@ -55,9 +74,17 @@ const ArticleScreen = ({navigation}) => {
     })
   }
 
+  const queryLoginUser = () => {
+    GlobalStorage('loginUser', 'json').then(loginUser => {
+      setLoginUser(loginUser);
+    }).catch(() => {
+    })
+  }
+
   useFocusEffect(
     useCallback(() => {
       query()
+      queryLoginUser()
     }, [])
   );
 
@@ -105,6 +132,15 @@ const ArticleScreen = ({navigation}) => {
         </View>
       }
       <View style={styles.card.toolbar}>
+        {
+          loginUser.id === item.user.id
+          &&
+          <TouchableOpacity
+            style={styles.card.toolbar.item}
+            onPress={() => onDeleteArticle(item)}>
+            <AntDesignIcon name="delete" size={18} style={styles.mr5} />
+          </TouchableOpacity>
+        }
         <TouchableOpacity
           style={styles.card.toolbar.item}
           onPress={() => onShowReview(item)}>

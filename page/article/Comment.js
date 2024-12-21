@@ -1,14 +1,16 @@
 import React, { useState, useCallback } from 'react';
-import {StyleSheet, Alert, Text, View, Image, FlatList, TextInput} from 'react-native';
+import {StyleSheet, Alert, Text, View, Image, FlatList, TextInput,TouchableOpacity} from 'react-native';
 import {Button} from '@rneui/themed';
 import { useFocusEffect } from '@react-navigation/native';
+import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { getImageUri, fetchGet, fetchPost } from "../utils/request";
 import { format } from "../utils/date";
-import { GlobalStorage } from "../utils/store";
+import { checkLogin, GlobalStorage } from "../utils/store";
 
 const Comment = ({ articleId, onFresh }) => {
   const [dataList, setDataList] = useState([]);
   const [comment, setComment] = useState('');
+  const [loginUser, setLoginUser] = useState({});
 
   const query = () => {
     // fetch comment data from server
@@ -17,11 +19,36 @@ const Comment = ({ articleId, onFresh }) => {
     });
   }
 
+  const queryLoginUser = () => {
+    GlobalStorage('loginUser', 'json').then(loginUser => {
+      setLoginUser(loginUser);
+    }).catch(() => {
+    })
+  }
+
   useFocusEffect(
     useCallback(() => {
       query()
+      queryLoginUser()
     }, [])
   );
+
+  const onDeleteComment = item => {
+    Alert.alert('Message', 'Do you want to delete this comment?', [
+      {text: 'Yes', onPress: () => {
+          checkLogin(() => {
+            fetchPost('/comment/delete', {
+              id: item.id,
+            }, () =>{
+              query()
+              Alert.alert('Message', 'Successfully deleted')
+            })
+          })
+        }
+      },
+      {text: 'No', onPress: () => console.log('No Pressed')},
+    ])
+  }
 
   const onSave = () => {
     GlobalStorage('loginUser', 'json').then(loginUser => {
@@ -48,7 +75,17 @@ const Comment = ({ articleId, onFresh }) => {
       <View style={{flex: 1}}>
         <Text>{item.user.first_name}</Text>
         <Text style={styles.comment}>{item.comment}</Text>
-        <Text>{format(item.create_time)}</Text>
+        <View style={styles.reviewDate}>
+          <Text>{format(item.create_time)}</Text>
+          {
+            loginUser.id === item.user.id
+            &&
+            <TouchableOpacity
+              onPress={() => onDeleteComment(item)}>
+              <AntDesignIcon name="delete" size={18} style={styles.mr5} />
+            </TouchableOpacity>
+          }
+        </View>
       </View>
     </View>
   );
@@ -66,7 +103,7 @@ const Comment = ({ articleId, onFresh }) => {
         numberOfLines={4}
         onChangeText={setComment}
         value={comment}
-        placeholder="Type your review ..."
+        placeholder="Type your comment here ..."
         textAlignVertical="top"
       />
       <View style={styles.buttonContainer}>
@@ -87,6 +124,10 @@ const styles = StyleSheet.create({
     color: '#000',
     marginTop: 5,
     marginBottom: 5,
+  },
+  reviewDate: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   card: {
     borderBottomWidth: 1,
